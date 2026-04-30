@@ -5,27 +5,43 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 const posts = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags))).sort();
 ---
 
-<BaseLayout title="Blog — ClawMama" description="All ClawMama marketing posts.">
-  <h1>Blog archive</h1>
-  <p class="muted">All posts are maintained as Markdown or MDX in the repository.</p>
+<BaseLayout
+  title="Articles — ClawMama Blog"
+  description="All ClawMama articles about OpenClaw hosting, Hermes hosting, Telegram bot deployment, and managed AI runtimes."
+>
+  <section class="page-hero compact">
+    <p class="eyebrow">Articles</p>
+    <h1>OpenClaw hosting, Hermes hosting, and Telegram bot operations.</h1>
+    <p>
+      Field notes, launch playbooks, and product explanations maintained as Markdown in the
+      ClawMama blog repository.
+    </p>
+  </section>
+
+  <section class="tag-cloud" aria-label="Topics">
+    {tags.map((tag) => <span class="tag">{tag}</span>)}
+  </section>
 
   <div class="post-list">
     {posts.map((post) => (
-      <article class="post-card">
-        <h2>
-          <a href={`/blog/${post.id}`}>{post.data.title}</a>
-        </h2>
-        <span class="post-meta">
-          {new Date(post.data.pubDate).toLocaleDateString()} · {post.data.author}
-        </span>
-        <p>{post.data.description}</p>
+      <article class="post-card archive-card">
         <div>
-          {post.data.tags.map((tag) => (
-            <span class="tag">{tag}</span>
-          ))}
+          <div class="tag-row">
+            {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+          </div>
+          <h2>
+            <a href={`/blog/${post.id}`}>{post.data.title}</a>
+          </h2>
+          <span class="post-meta">
+            {new Date(post.data.pubDate).toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric" })} · {post.data.author}
+          </span>
+          <p>{post.data.description}</p>
         </div>
+        <a class="read-link" href={`/blog/${post.id}`}>Read →</a>
       </article>
     ))}
   </div>

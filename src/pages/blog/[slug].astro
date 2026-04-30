@@ -7,13 +7,10 @@ export async function getStaticPaths() {
 
   return posts
     .filter((post) => !post.data.draft)
-    .map((post) => {
-      const slug = post.id;
-      return {
-        params: { slug },
-        props: { post },
-      };
-    })
+    .map((post) => ({
+      params: { slug: post.id },
+      props: { post },
+    }))
     .filter((path) => path.params.slug);
 }
 
@@ -21,16 +18,30 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description}>
-  <article class="post-card post-body">
-    <p class="post-meta">
-      {new Date(post.data.pubDate).toLocaleDateString()} · {post.data.author}
-    </p>
-    <h1>{post.data.title}</h1>
-    <p>{post.data.description}</p>
-    <Content />
-    <p>
-      <a href="/blog">← Back to blog</a>
-    </p>
+<BaseLayout title={`${post.data.title} — ClawMama Blog`} description={post.data.description}>
+  <article class="article-shell">
+    <header class="article-header">
+      <div class="tag-row">
+        {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+      </div>
+      <h1>{post.data.title}</h1>
+      <p>{post.data.description}</p>
+      <span class="post-meta">
+        {new Date(post.data.pubDate).toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric" })} · {post.data.author}
+      </span>
+    </header>
+
+    <div class="post-body">
+      <Content />
+    </div>
+
+    <aside class="article-cta">
+      <p class="eyebrow">Try ClawMama</p>
+      <h2>Launch your own OpenClaw or Hermes bot on Telegram.</h2>
+      <p>Start from Telegram, choose a runtime, and let ClawMama handle the managed runtime layer.</p>
+      <a class="button primary" href="https://t.me/clawmamarun_bot" target="_blank" rel="noreferrer">Open @clawmamarun_bot</a>
+    </aside>
+
+    <p class="back-link"><a href="/blog">← Back to all articles</a></p>
   </article>
 </BaseLayout>

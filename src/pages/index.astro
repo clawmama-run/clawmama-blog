@@ -5,43 +5,101 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 const allPosts = (await getCollection("blog")).filter((post) => !post.data.draft);
 const posts = allPosts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
+  .slice(0, 4);
 
-const latest = posts[0];
+const featured = posts[0];
+const secondary = posts.slice(1);
 ---
 
 <BaseLayout
-  title="ClawMama Marketing Blog"
-  description="Clean ideas and practical playbooks for a modern pet-first brand."
+  title="ClawMama Blog — OpenClaw & Hermes hosting playbooks"
+  description="Official ClawMama blog for OpenClaw hosting, Hermes hosting, Telegram bot deployment, and managed AI runtime operations."
 >
-  <section class="hero">
-    <p class="muted">Official ClawMama marketing hub</p>
-    <h1 class="page-title">Campaign notes, launch updates, and useful ideas.</h1>
-    <p>
-      This site is the canonical source for ClawMama marketing copy and launch materials.
-      Use the same markdown files for distribution to Dev.to.
-    </p>
+  <section class="hero hero-grid">
+    <div>
+      <p class="eyebrow">Official ClawMama Blog</p>
+      <h1 class="page-title">Launch notes for Telegram-first OpenClaw and Hermes hosting.</h1>
+      <p class="hero-copy">
+        Practical articles about deploying, running, and marketing AI bots with ClawMama —
+        a managed control plane for OpenClaw and Hermes runtimes on Telegram.
+      </p>
+      <div class="hero-actions">
+        <a class="button primary" href="https://t.me/clawmamarun_bot" target="_blank" rel="noreferrer">Start with Telegram</a>
+        <a class="button secondary" href="/blog">Read articles</a>
+      </div>
+    </div>
+    <aside class="hero-panel" aria-label="ClawMama summary">
+      <span class="pill">Positioning</span>
+      <h2>Your own AI bot, without VPS chores.</h2>
+      <ul class="check-list">
+        <li>Paste a BotFather token</li>
+        <li>Pick OpenClaw or Hermes</li>
+        <li>Run in an isolated managed container</li>
+        <li>Use pay-as-you-go AI credits</li>
+      </ul>
+    </aside>
   </section>
 
-  {latest ? (
-    <article class="post-card">
-      <h2>Latest: {latest.data.title}</h2>
-      <p>{latest.data.description}</p>
-      <a href={`/blog/${latest.id}`}>Read latest</a>
+  <section class="section-grid">
+    <article class="info-card">
+      <p class="eyebrow">Audience</p>
+      <h2>For people who want OpenClaw online, not another server project.</h2>
+      <p>
+        The blog focuses on OpenClaw-aware and Hermes-aware users who want a Telegram bot
+        that stays online without managing Docker, SSL, runtime versions, model keys, or billing glue.
+      </p>
     </article>
+    <article class="info-card">
+      <p class="eyebrow">Distribution</p>
+      <h2>Blog first, Dev.to second.</h2>
+      <p>
+        This site is the canonical source for ClawMama content. Dev.to posts are syndicated from here
+        after a page is reviewed and deployed.
+      </p>
+    </article>
+  </section>
+
+  {featured ? (
+    <section class="featured-section">
+      <div class="section-heading">
+        <p class="eyebrow">Featured</p>
+        <h2>Latest article</h2>
+      </div>
+      <article class="post-card featured-card">
+        <div>
+          <div class="tag-row">
+            {featured.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+          </div>
+          <h3>{featured.data.title}</h3>
+          <p>{featured.data.description}</p>
+          <span class="post-meta">
+            {new Date(featured.data.pubDate).toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric" })} · {featured.data.author}
+          </span>
+        </div>
+        <a class="button secondary" href={`/blog/${featured.id}`}>Read article</a>
+      </article>
+    </section>
   ) : null}
 
   <section>
-    <h2>Recent posts</h2>
-    <div class="post-list">
-      {posts.map((post) => (
+    <div class="section-heading inline-heading">
+      <div>
+        <p class="eyebrow">Recent</p>
+        <h2>More from the blog</h2>
+      </div>
+      <a href="/blog">View all →</a>
+    </div>
+    <div class="post-list two-col">
+      {secondary.map((post) => (
         <article class="post-card">
-          <h3>{post.data.title}</h3>
+          <div class="tag-row">
+            {post.data.tags.slice(0, 3).map((tag) => <span class="tag">{tag}</span>)}
+          </div>
+          <h3><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
           <span class="post-meta">
-            {new Date(post.data.pubDate).toLocaleDateString()} · {post.data.author}
+            {new Date(post.data.pubDate).toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric" })} · {post.data.author}
           </span>
           <p>{post.data.description}</p>
-          <a href={`/blog/${post.id}`}>Open post</a>
         </article>
       ))}
     </div>
