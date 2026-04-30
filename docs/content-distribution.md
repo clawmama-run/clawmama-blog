@@ -1,38 +1,32 @@
 # Content source and distribution model
 
-## Canonical source
+## Canonical public source
 
-All published and draft copy for ClawMama marketing lives in the repository under:
+Published and draft public blog copy for ClawMama lives in this repository under:
 
 - `src/content/blog/*.md`
 - `src/content/blog/*.mdx`
 
-This repository is the single source of truth for:
+This repository is the source of truth for public blog articles, publication metadata, tags, dates, and Markdown body content.
 
-- campaign copy
-- publication metadata
-- tags and dates
-- markdown body content
+## Repository boundary
+
+This repository is not the CMO operations workspace.
+
+Internal marketing plans, content calendars, growth strategy, publishing rules, and working notes are managed separately in:
+
+- `/data/openclaw/workspace/clawmama-marketing-ops`
 
 ## Distribution to Dev.to
 
-Dev.to is a distribution surface for selected content. It is not the source and it should not mirror every blog post.
+Dev.to is a distribution surface for selected public articles. It is not the source.
 
-The blog can publish at a higher pace because it is ClawMama's owned asset. Dev.to must stay selective to avoid low-quality distribution and platform risk.
+Distribution should happen only after the canonical blog post has been deployed and reviewed.
 
-Default rules:
-
-- Blog: minimum 2 posts/day; ideal 3 posts/day when quality is high.
-- Dev.to: 2-3 posts in the first week, about 3 posts/week afterward, hard cap 1 post/day.
-- Only publish Dev.to articles that provide standalone value to readers.
-- Always deploy the canonical blog post first.
-
-Syndication is currently driven by `scripts/devto-sync.mjs` and/or BrowserMan-assisted publishing.
+Syndication is currently supported by `scripts/devto-sync.mjs` and/or BrowserMan-assisted publishing.
 
 The sync script currently runs as a safe placeholder that:
 
 - scans for markdown and MDX files,
 - defaults to dry-run mode,
 - requires `DEVTO_API_KEY` when `DRY_RUN=false`.
-
-BrowserMan publishing should follow `docs/devto-publishing-rules.md`.

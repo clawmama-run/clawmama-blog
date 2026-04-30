@@ -1,6 +1,6 @@
 # ClawMama Blog Content Index
 
-This is the canonical index for published posts, editorial strategy, and distribution rules in this repository.
+This is the canonical index for public blog posts in this repository.
 
 ## Published starter posts
 
@@ -8,23 +8,16 @@ This is the canonical index for published posts, editorial strategy, and distrib
 - `src/content/blog/openclaw-hosting-without-vps-maintenance.md`
 - `src/content/blog/blog-as-canonical-source-devto-as-distribution.md`
 
-## Editorial planning docs
+## Repository boundary
 
-- `docs/editorial-strategy.md` — audience, positioning, tone, reader personas, and claim discipline.
-- `docs/content-calendar.md` — 30-day blog plan and daily publishing targets.
-- `docs/devto-publishing-rules.md` — Dev.to cadence, selection rules, and BrowserMan publishing workflow.
-- `docs/content-distribution.md` — canonical source and distribution model.
+This repository should contain the public Astro blog site and public-facing article source.
 
-## Audience principle
+Internal CMO operating plans, content calendars, growth notes, publishing policies, and working instructions live outside this repo in:
 
-ClawMama content is not primarily for technical hobbyists. It is for people who want AI tools to help them do real work: research, sales discovery, marketing, operations, summaries, and business workflows.
-
-Every article should start from a reader job-to-be-done, then explain how ClawMama reduces setup and maintenance friction.
+- `/data/openclaw/workspace/clawmama-marketing-ops`
 
 ## Distribution contract
 
-- Canonical source: this repository’s `src/content/blog` files.
-- Blog cadence: minimum 2 posts/day; ideal 3 posts/day when quality can be maintained.
-- Dev.to cadence: selective; 2-3 posts in week 1, about 3/week afterward, hard cap 1/day.
-- Dev.to should only receive useful, reviewed, externally valuable articles after the canonical blog version has deployed.
-- Keep canonical files in sync with distribution by editing the source files first.
+- Canonical source for public articles: this repository’s `src/content/blog` files.
+- Distribution: Dev.to mirrors selected public articles only after the canonical blog version is deployed.
+- Keep public article files in sync by editing source files here first.
