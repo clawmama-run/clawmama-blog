@@ -1,0 +1,49 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const allPosts = (await getCollection("blog")).filter((post) => !post.data.draft);
+const posts = allPosts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const latest = posts[0];
+---
+
+<BaseLayout
+  title="ClawMama Marketing Blog"
+  description="Clean ideas and practical playbooks for a modern pet-first brand."
+>
+  <section class="hero">
+    <p class="muted">Official ClawMama marketing hub</p>
+    <h1 class="page-title">Campaign notes, launch updates, and useful ideas.</h1>
+    <p>
+      This site is the canonical source for ClawMama marketing copy and launch materials.
+      Use the same markdown files for distribution to Dev.to.
+    </p>
+  </section>
+
+  {latest ? (
+    <article class="post-card">
+      <h2>Latest: {latest.data.title}</h2>
+      <p>{latest.data.description}</p>
+      <a href={`/blog/${latest.id}`}>Read latest</a>
+    </article>
+  ) : null}
+
+  <section>
+    <h2>Recent posts</h2>
+    <div class="post-list">
+      {posts.map((post) => (
+        <article class="post-card">
+          <h3>{post.data.title}</h3>
+          <span class="post-meta">
+            {new Date(post.data.pubDate).toLocaleDateString()} · {post.data.author}
+          </span>
+          <p>{post.data.description}</p>
+          <a href={`/blog/${post.id}`}>Open post</a>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
