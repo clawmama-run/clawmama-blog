@@ -3,7 +3,7 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 
 const siteUrl = process.env.SITE_URL || "https://clawmama-run.github.io";
-const basePath = process.env.BASE_PATH || "/blog";
+const basePath = process.env.BASE_PATH || "/clawmama-blog";
 
 export default defineConfig({
   site: siteUrl,
